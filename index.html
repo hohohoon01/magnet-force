@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#EAF0F8" />
+  <title>자기장 속 전류가 받는 힘</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <!-- 1단: 실험 장면 -->
+    <section class="stage" aria-label="실험 장면">
+      <canvas id="sim"></canvas>
+      <div class="toggles" role="group" aria-label="화살표 보이기">
+        <button class="chip on" data-show="I" style="--c:var(--I)">전류</button>
+        <button class="chip on" data-show="B" style="--c:var(--B)">자기장</button>
+        <button class="chip on" data-show="F" style="--c:var(--F)">힘</button>
+      </div>
+      <div class="stage-note" id="stageNote"></div>
+    </section>
+
+    <!-- 2단: 조작 -->
+    <aside class="panel">
+      <div class="card controls">
+        <h1>자기장 속 전류가 받는 힘</h1>
+
+        <div class="group">
+          <div class="glabel"><span class="dot i"></span>전류의 방향 <small>(+극 → −극)</small></div>
+          <div class="seg seg2" id="segDir">
+            <button data-dir="-1" style="--c:var(--I)">
+              <span class="pm"><b class="p">(+)</b> 앞 · <b class="m">(−)</b> 뒤</span>
+              <small>⊗ 화면 안으로</small>
+            </button>
+            <button data-dir="1" style="--c:var(--I)">
+              <span class="pm"><b class="m">(−)</b> 앞 · <b class="p">(+)</b> 뒤</span>
+              <small>⊙ 화면 밖으로</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="glabel"><span class="dot i"></span>전류의 세기 <span class="val" id="valI">3</span></div>
+          <div class="strength">
+            <button class="step" id="minus" aria-label="전류 줄이기">−</button>
+            <input type="range" id="slider" min="0" max="5" step="1" value="3" aria-label="전류의 세기" />
+            <button class="step" id="plus" aria-label="전류 늘리기">+</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="glabel"><span class="dot b"></span>자석의 극 <small>(자기장: N극 → S극)</small></div>
+          <div class="seg seg2" id="segB">
+            <button data-n="right" style="--c:var(--B)"><span class="sym">←</span><span>N극 오른쪽</span></button>
+            <button data-n="left" style="--c:var(--B)"><span class="sym">→</span><span>N극 왼쪽</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hand-card">
+        <button class="hand-btn" id="handBtn" aria-pressed="false">
+          <span class="hand-ico">✋</span>
+          <span><b>오른손 겹쳐 보기</b><small id="handBtnSub">눌러서 손을 실험 장면 위에 올려요</small></span>
+        </button>
+        <div class="rules">
+          <span class="rule" style="--c:var(--I)">엄지 → 전류</span>
+          <span class="rule" style="--c:var(--B)">네 손가락 → 자기장</span>
+          <span class="rule" style="--c:var(--F)">손바닥 → 힘</span>
+        </div>
+        <div class="readout">
+          <div class="ro-row"><span class="dot i"></span><b>전류</b><span id="roI">-</span></div>
+          <div class="ro-row"><span class="dot b"></span><b>자기장</b><span id="roB">-</span></div>
+          <div class="ro-row"><span class="dot f"></span><b>힘</b><span id="roF">-</span></div>
+          <div class="ro-bar"><span>힘의 크기</span><div class="cells" id="roCells"></div></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
